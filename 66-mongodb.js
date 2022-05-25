@@ -174,6 +174,8 @@ module.exports = function(RED) {
                                 }
                             });
                         }
+                        msg.payload = "success";
+                        node.send(msg);
                     });
                 }
             });
