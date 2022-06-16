@@ -46,6 +46,7 @@
     RED.nodes.registerType('mongodb', {
         category: 'config',
         color: "rgb(218, 196, 180)",
+        outputLabels: ["Success","Fail"],
         defaults: {
             hostname: {value: "127.0.0.1", required: true},
             topology: {value: "direct", required: true},
@@ -152,7 +153,7 @@
             operation: {value: "store"}
         },
         inputs: 1,
-        outputs: 1,
+        outputs: 2,
         icon: "mongodb.png",
         align: "right",
         label: function() {
