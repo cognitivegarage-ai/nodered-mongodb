@@ -1,40 +1,11 @@
-
 <script type="text/html" data-template-name="mongodb">
     <div class="form-row">
-        <label for="node-config-input-hostname"><i class="fa fa-bookmark"></i><span data-i18n="mongodb.label.host"></span></label>
-        <input class="input-append-left" type="text" id="node-config-input-hostname" placeholder="localhost">
+        <label for="node-config-input-url"><i class="fa fa-lock"></i> <span data-i18n="mongodb.label.url"></span></label>
+        <input type="password" id="node-config-input-url">
     </div>
-
-    <div class="form-row node-config-input-topology">
-      <label for="node-config-input-topology"><span data-i18n="mongodb.label.topology"></span></label>
-          <select id="node-config-input-topology">
-            <option type="button" class="red-ui-button toggle topology-group" selected  value="direct">Direct (mongodb://)</button>
-            <option type="button" class="red-ui-button toggle topology-group" value="replicaset">RelicaSet/Cluster (mongodb://)</button>
-            <option type="button" class="red-ui-button toggle topology-group" value="dnscluster">DNS Cluster (mongodb+srv://)</button>
-          </select>
-    </div>
-
-    <div class="form-row node-config-connectOptions">
-        <label for="node-config-input-connectOptions"><i class="fa fa-wrench"></i><span data-i18n="mongodb.label.connectOptions"></span></label>
-        <input type="text" id="node-config-input-connectOptions">
-    </div>
-
-    <div class="form-row node-config-input-port">
-        <label for="node-config-input-port"><i class="fa fa-plug"></i><span data-i18n="mongodb.label.port"></span></label>
-        <input type="text" id="node-config-input-port" style="width:55px;">
-    </div>
-
-    <div class="form-row">
-        <label for="node-config-input-db"><i class="fa fa-database"></i> <span data-i18n="mongodb.label.database"></span></label>
-        <input type="text" id="node-config-input-db">
-    </div>
-    <div class="form-row">
-        <label for="node-config-input-user"><i class="fa fa-user"></i> <span data-i18n="mongodb.label.username"></span></label>
-        <input type="text" id="node-config-input-user">
-    </div>
-    <div class="form-row">
-        <label for="node-config-input-password"><i class="fa fa-lock"></i> <span data-i18n="mongodb.label.password"></span></label>
-        <input type="password" id="node-config-input-password">
+        <div class="form-row">
+        <label for="node-config-input-database"><i class="fa fa-lock"></i> <span data-i18n="mongodb.label.database"></span></label>
+        <input type="text" id="node-config-input-database">
     </div>
     <div class="form-row">
         <label for="node-config-input-name"><i class="fa fa-tag"></i> <span data-i18n="node-red:common.label.name"></span></label>
@@ -48,30 +19,15 @@
         color: "rgb(218, 196, 180)",
         outputLabels: ["Success","Fail"],
         defaults: {
-            hostname: {value: "127.0.0.1", required: true},
-            topology: {value: "direct", required: true},
-            connectOptions: {value: "", required: false},
-            port: {value: 27017, required: true},
-            db: {value: "", required: true},
-            name: {value: ""}
+            name: {value: ""},
+            database: {value: "", required:true}
         },
         credentials: {
-            user: {type: "text"},
-            password: {type: "password"}
+            url: {type: "text"},
         },
         label: function() {
-            return this.name || this.db + "@" + this.hostname;
-        },
-        oneditprepare: function() {
-          $("#node-config-input-topology").on("change", function() {
-            var topology = $("#node-config-input-topology option:selected").val();
-            if (topology === "direct") {
-              $(".node-config-input-port").show();
-            } else {
-              $(".node-config-input-port").hide();
-            }
-          });
-        },
+            return this.name || "MongoDB";
+        }
     });
 </script>
 
@@ -139,7 +95,6 @@
             }
         });
     }
-
     RED.nodes.registerType('mongodb out', {
         category: 'storage-output',
         color: "rgb(218, 196, 180)",
@@ -202,7 +157,7 @@
             operation: {value: "find"}
         },
         inputs: 1,
-        outputs: 1,
+        outputs: 2,
         icon: "mongodb.png",
         label: function() {
             var mongoNode = RED.nodes.node(this.mongodb);
